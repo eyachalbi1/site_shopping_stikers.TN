@@ -25,18 +25,21 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);}
 body{font-family:'Nunito',sans-serif;color:var(--ink);line-height:1.55;overflow-x:hidden;
-  background:var(--cream);position:relative;}
+  background:transparent;position:relative;}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}}
 
-/* aesthetic background: soft drifting blobs */
-.bg-blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;}
-.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;}
-.blob.b1{width:420px;height:420px;background:var(--pink);top:-120px;left:-100px;animation:drift1 22s ease-in-out infinite;}
-.blob.b2{width:380px;height:380px;background:var(--lav);top:20%;right:-140px;animation:drift2 26s ease-in-out infinite;}
-.blob.b3{width:320px;height:320px;background:var(--peach);bottom:-100px;left:20%;animation:drift1 19s ease-in-out infinite reverse;}
-.blob.b4{width:260px;height:260px;background:var(--gold);opacity:.3;bottom:10%;right:8%;animation:drift2 24s ease-in-out infinite reverse;}
-@keyframes drift1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,30px) scale(1.08);}}
-@keyframes drift2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-35px,25px) scale(1.05);}}
+/* aesthetic background: dreamy pastel sky with drifting clouds + grain */
+.bg-blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;
+  background:linear-gradient(180deg,#A9BFD4 0%,#D8C6C2 42%,#F3CBAE 72%,#FBDEC0 100%);}
+.bg-blobs .cloud{position:absolute;border-radius:50%;background:#fff;filter:blur(30px);opacity:.7;}
+.bg-blobs .c1{width:340px;height:150px;top:6%;left:-60px;animation:driftx 34s ease-in-out infinite;}
+.bg-blobs .c2{width:280px;height:130px;top:16%;right:-40px;opacity:.6;animation:driftx 40s ease-in-out infinite reverse;}
+.bg-blobs .c3{width:420px;height:190px;top:38%;left:10%;opacity:.55;animation:driftx 46s ease-in-out infinite;}
+.bg-blobs .c4{width:360px;height:170px;top:62%;right:5%;opacity:.6;animation:driftx 38s ease-in-out infinite reverse;}
+.bg-blobs .c5{width:460px;height:200px;bottom:-40px;left:25%;opacity:.7;animation:driftx 50s ease-in-out infinite;}
+.bg-blobs .grain{position:absolute;inset:-10%;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+@keyframes driftx{0%,100%{transform:translate(0,0);}50%{transform:translate(26px,-14px);}}
 
 img{max-width:100%;}
 h1,h2,h3{font-family:'Baloo 2',cursive;line-height:1.15;}
@@ -45,7 +48,7 @@ h1,h2,h3{font-family:'Baloo 2',cursive;line-height:1.15;}
 a{color:inherit;}
 
 /* header */
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,246,236,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,250,247,.78);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.5);}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1100px;margin:0 auto;}
 .brand{display:flex;align-items:center;gap:10px;font-family:'Baloo 2';font-weight:700;font-size:1.3rem;}
 .brand .dot{width:38px;height:38px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:2px solid var(--rose);}
@@ -125,8 +128,9 @@ section{padding:60px 24px;position:relative;}
 .calc-box{max-width:640px;margin:0 auto;background:#fff;border:2.5px dashed var(--pink);border-radius:26px;padding:32px;}
 .calc-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .qty{display:flex;align-items:center;gap:12px;}
-.qty button{width:42px;height:42px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-size:1.2rem;font-weight:800;cursor:pointer;transition:background .15s;}
-.qty button:hover{background:var(--pink-soft, #FDEAF0);}
+.qty button{width:42px;height:42px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--rose),#C8447A);color:#fff;font-size:1.3rem;font-weight:800;cursor:pointer;box-shadow:0 6px 14px -4px rgba(224,86,138,.55);transition:transform .15s;}
+.qty button:hover{transform:translateY(-2px);}
+.qty button:active{transform:scale(.92);}
 .qty input{width:64px;text-align:center;font-family:'Baloo 2';font-size:1.3rem;border:none;background:transparent;}
 .calc-summary{margin-top:22px;border-top:1px dashed var(--pink);padding-top:18px;font-size:.95rem;}
 .calc-summary div{display:flex;justify-content:space-between;padding:4px 0;}
@@ -148,7 +152,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
 </head>
 <body>
 
-<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div></div>
+<div class="bg-blobs"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="cloud c4"></div><div class="cloud c5"></div><div class="grain"></div></div>
 
 <header>
   <div class="nav">
