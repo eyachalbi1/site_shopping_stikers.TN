@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sticker Shop — Stickers personnalisés en Tunisie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF6EC;
+  --peach:#FFDFC4;
+  --pink:#FFC7DC;
+  --rose:#E0568A;
+  --plum:#3A2A38;
+  --ink:#2B2321;
+  --gold:#FFCE54;
+  --lav:#D8C6F2;
+  --line:#F0DCE2;
+  --wa:#3BC160;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);}
+body{font-family:'Nunito',sans-serif;color:var(--ink);line-height:1.55;overflow-x:hidden;
+  background:var(--cream);position:relative;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}}
+
+/* aesthetic background: soft drifting blobs */
+.bg-blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;}
+.blob.b1{width:420px;height:420px;background:var(--pink);top:-120px;left:-100px;animation:drift1 22s ease-in-out infinite;}
+.blob.b2{width:380px;height:380px;background:var(--lav);top:20%;right:-140px;animation:drift2 26s ease-in-out infinite;}
+.blob.b3{width:320px;height:320px;background:var(--peach);bottom:-100px;left:20%;animation:drift1 19s ease-in-out infinite reverse;}
+.blob.b4{width:260px;height:260px;background:var(--gold);opacity:.3;bottom:10%;right:8%;animation:drift2 24s ease-in-out infinite reverse;}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,30px) scale(1.08);}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-35px,25px) scale(1.05);}}
+
+img{max-width:100%;}
+h1,h2,h3{font-family:'Baloo 2',cursive;line-height:1.15;}
+.accent{font-family:'Caveat',cursive;color:var(--rose);font-weight:700;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,246,236,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1100px;margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Baloo 2';font-weight:700;font-size:1.3rem;}
+.brand .dot{width:38px;height:38px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:2px solid var(--rose);}
+nav.links{display:flex;gap:28px;font-weight:700;font-size:.95rem;}
+nav.links a{text-decoration:none;opacity:.8;transition:opacity .15s;}
+nav.links a:hover{opacity:1;color:var(--rose);}
+@media (max-width:680px){nav.links{display:none;}}
+
+/* hero */
+.hero{padding:70px 24px 30px;position:relative;}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center;}
+@media (max-width:820px){.hero-inner{grid-template-columns:1fr;}}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--pink);border-radius:999px;padding:6px 16px;font-weight:800;font-size:.85rem;color:var(--rose);
+  opacity:0;animation:pop .6s ease forwards;animation-delay:.05s;}
+.hero h1{margin-top:16px;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:800;
+  opacity:0;animation:pop .7s ease forwards;animation-delay:.15s;}
+.hero p{margin-top:16px;font-size:1.1rem;max-width:48ch;color:#5a4e49;
+  opacity:0;animation:pop .7s ease forwards;animation-delay:.3s;}
+.cta-row{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;
+  opacity:0;animation:pop .7s ease forwards;animation-delay:.45s;}
+@keyframes pop{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:800;text-decoration:none;font-size:1rem;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
+.btn:active{transform:scale(.96);}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 8px 20px -6px rgba(59,193,96,.6);}
+.btn-wa:hover{transform:translateY(-2px);}
+.btn-ghost{background:transparent;border-color:var(--ink);color:var(--ink);}
+.btn-ghost:hover{background:#fff;}
+
+/* hero sticker stack */
+.sticker-stack{position:relative;height:320px;}
+.sticker{position:absolute;background:#fff;border:2.5px dashed var(--rose);border-radius:24px;padding:18px 20px;text-align:center;box-shadow:0 14px 30px -10px rgba(43,35,33,.18);}
+.sticker .emoji{font-size:2.2rem;display:block;}
+.sticker .lbl{font-weight:800;font-size:.85rem;margin-top:4px;}
+.s1{width:140px;top:0;left:20px;transform:rotate(-8deg);animation:float1 6s ease-in-out infinite;}
+.s2{width:150px;top:60px;right:0;transform:rotate(7deg);animation:float2 7s ease-in-out infinite;}
+.s3{width:130px;bottom:10px;left:60px;transform:rotate(4deg);animation:float1 6.5s ease-in-out infinite reverse;}
+.ribbon{position:absolute;top:-14px;right:-14px;background:var(--gold);color:var(--ink);font-family:'Baloo 2';font-weight:800;font-size:.95rem;padding:10px 16px;border-radius:16px;transform:rotate(10deg);box-shadow:0 8px 16px -6px rgba(0,0,0,.25);z-index:3;}
+@keyframes float1{0%,100%{transform:translateY(0) rotate(-8deg);}50%{transform:translateY(-10px) rotate(-6deg);}}
+@keyframes float2{0%,100%{transform:translateY(0) rotate(7deg);}50%{transform:translateY(-12px) rotate(9deg);}}
+@media (max-width:820px){.sticker-stack{height:240px;margin-top:10px;}}
+
+/* section shared */
+section{padding:60px 24px;position:relative;}
+.section-title{font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;margin-bottom:8px;}
+.section-sub{color:#6b5f5b;font-weight:600;margin-bottom:34px;max-width:56ch;}
+
+/* types grid - die-cut sticker cards */
+.types{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media (max-width:780px){.types{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:480px){.types{grid-template-columns:1fr;}}
+.type-card{background:#fff;border:2.5px dashed var(--pink);border-radius:22px;padding:24px;transition:transform .2s ease,border-color .2s ease;}
+.type-card:hover{transform:rotate(-1.5deg) translateY(-4px);border-color:var(--rose);}
+.type-card .icon{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--peach));display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:12px;}
+.type-card h3{font-size:1.08rem;font-weight:700;margin-bottom:4px;}
+.type-card p{font-size:.92rem;color:#6b5f5b;}
+
+/* promo banner */
+.promo{background:linear-gradient(120deg,var(--rose),#C8447A);color:#fff;border-radius:28px;max-width:1100px;margin:0 auto;padding:38px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.promo::before{content:'';position:absolute;width:220px;height:220px;background:rgba(255,255,255,.12);border-radius:50%;top:-80px;right:-60px;}
+.promo h2{font-size:clamp(1.5rem,3vw,2.1rem);}
+.promo p{margin-top:6px;opacity:.92;max-width:44ch;}
+.promo .tag{font-family:'Baloo 2';font-size:2.6rem;font-weight:800;background:var(--gold);color:var(--ink);padding:10px 22px;border-radius:18px;transform:rotate(-3deg);white-space:nowrap;}
+
+/* steps -> whatsapp guide */
+.steps-wrap{background:var(--plum);color:#fff;border-radius:0;}
+.steps-wrap .section-sub{color:#d8c9d3;}
+.steps{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+@media (max-width:780px){.steps{grid-template-columns:1fr;}}
+.step{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:24px;}
+.step .num{font-family:'Baloo 2';font-size:1.7rem;color:var(--gold);}
+.step h3{margin-top:8px;font-size:1.12rem;}
+.step p{margin-top:6px;color:#cfc0c9;font-size:.93rem;}
+.step-cta{text-align:center;margin-top:36px;}
+
+/* calculator */
+.calc-box{max-width:640px;margin:0 auto;background:#fff;border:2.5px dashed var(--pink);border-radius:26px;padding:32px;}
+.calc-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.qty{display:flex;align-items:center;gap:12px;}
+.qty button{width:42px;height:42px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-size:1.2rem;font-weight:800;cursor:pointer;transition:background .15s;}
+.qty button:hover{background:var(--pink-soft, #FDEAF0);}
+.qty input{width:64px;text-align:center;font-family:'Baloo 2';font-size:1.3rem;border:none;background:transparent;}
+.calc-summary{margin-top:22px;border-top:1px dashed var(--pink);padding-top:18px;font-size:.95rem;}
+.calc-summary div{display:flex;justify-content:space-between;padding:4px 0;}
+.calc-summary .total{font-family:'Baloo 2';font-size:1.6rem;font-weight:800;color:var(--rose);border-top:1px solid var(--line);margin-top:8px;padding-top:10px;}
+.badge-remise{display:none;margin-top:12px;background:var(--gold);color:var(--ink);font-weight:800;font-size:.85rem;padding:7px 14px;border-radius:999px;width:fit-content;}
+
+/* whatsapp send box */
+.wa-box{max-width:640px;margin:36px auto 0;background:linear-gradient(160deg,#EAFBF0,#fff);border:2px solid #C9F0D6;border-radius:26px;padding:30px;text-align:center;}
+.wa-box .wa-icon{width:64px;height:64px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 14px;}
+.wa-box p{color:#4b5b50;max-width:44ch;margin:8px auto 20px;}
+
+/* floating whatsapp button */
+.fab{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:22px;z-index:30;width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.7rem;text-decoration:none;box-shadow:0 10px 24px -6px rgba(59,193,96,.55);animation:pulse 2.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 10px 24px -6px rgba(59,193,96,.55);}50%{box-shadow:0 10px 30px -2px rgba(59,193,96,.85);}}
+
+footer{padding:44px 24px;text-align:center;color:#6b5f5b;font-size:.9rem;border-top:1px solid var(--line);}
+footer .brand{justify-content:center;margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div></div>
+
+<header>
+  <div class="nav">
+    <div class="brand"><span class="dot">🐱</span>Sticker Shop</div>
+    <nav class="links">
+      <a href="#types">Personnaliser</a>
+      <a href="#steps">Envoyer sur WhatsApp</a>
+      <a href="#calc">Prix</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-eyebrow">🔥 Fait à Radès, envoyé partout en Tunisie</span>
+      <h1>Ton idée devient <span class="accent">un sticker</span></h1>
+      <p>Envoie-nous une photo, un prénom ou un dessin sur WhatsApp : on te renvoie un sticker prêt à coller, fait juste pour toi.</p>
+      <div class="cta-row">
+        <a href="#steps" class="btn btn-wa">💬 Envoyer mon idée sur WhatsApp</a>
+        <a href="#calc" class="btn btn-ghost">Voir les prix</a>
+      </div>
+    </div>
+    <div class="sticker-stack">
+      <div class="ribbon">-50% dès 10</div>
+      <div class="sticker s1"><span class="emoji">📸</span><span class="lbl">Ta photo</span></div>
+      <div class="sticker s2"><span class="emoji">💬</span><span class="lbl">Ton prénom</span></div>
+      <div class="sticker s3"><span class="emoji">🎨</span><span class="lbl">Ton dessin</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="types">
+  <div class="wrap">
+    <h2 class="section-title">Que veux-tu transformer en sticker ?</h2>
+    <p class="section-sub">Choisis ton point de départ, le reste on s'en occupe.</p>
+    <div class="types">
+      <div class="type-card"><div class="icon">📸</div><h3>Une photo</h3><p>Toi, ton animal, un souvenir précis.</p></div>
+      <div class="type-card"><div class="icon">💬</div><h3>Un prénom ou une phrase</h3><p>En lettres stylisées, à ta façon.</p></div>
+      <div class="type-card"><div class="icon">🎨</div><h3>Un dessin ou une illustration</h3><p>Ton croquis, propre et prêt à coller.</p></div>
+      <div class="type-card"><div class="icon">🦊</div><h3>Ton personnage préféré</h3><p>Fan art fait avec soin.</p></div>
+      <div class="type-card"><div class="icon">🏷️</div><h3>Ton logo</h3><p>Pour ta marque ou ton petit projet.</p></div>
+      <div class="type-card"><div class="icon">🎁</div><h3>Une création spéciale</h3><p>Pour un cadeau ou un événement.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="promo">
+    <div>
+      <h2>Command plus, paye moins</h2>
+      <p>À partir de 10 stickers dans ta commande, chaque sticker passe à moitié prix.</p>
+    </div>
+    <div class="tag">-50%</div>
+  </div>
+</section>
+
+<div class="steps-wrap">
+<section id="steps">
+  <div class="wrap">
+    <h2 class="section-title">Comment nous envoyer ton idée</h2>
+    <p class="section-sub">Tout se passe sur WhatsApp, aucun compte à créer.</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Clique sur le bouton WhatsApp</h3><p>Il ouvre directement une discussion avec nous.</p></div>
+      <div class="step"><div class="num">2</div><h3>Envoie ta photo ou ton idée</h3><p>Décris ce que tu veux, ou joins une image.</p></div>
+      <div class="step"><div class="num">3</div><h3>Reçois ton devis et ton sticker</h3><p>On te confirme le prix, tu valides, on t'envoie tes stickers.</p></div>
+    </div>
+    <div class="step-cta">
+      <a href="https://wa.me/21600000000?text=Bonjour%20Sticker%20Shop%20!%20Je%20veux%20cr%C3%A9er%20un%20sticker%20personnalis%C3%A9." class="btn btn-wa" target="_blank" rel="noopener">💬 Ouvrir WhatsApp maintenant</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<section id="calc">
+  <div class="wrap" style="text-align:center;">
+    <h2 class="section-title">Calcule ton prix</h2>
+    <p class="section-sub" style="margin-left:auto;margin-right:auto;">Plus de 10 stickers commandés = -50% sur toute la commande.</p>
+  </div>
+  <div class="calc-box">
+    <div class="calc-row">
+      <div><strong>Nombre de stickers</strong></div>
+      <div class="qty">
+        <button id="minus" aria-label="moins">−</button>
+        <input id="qty" type="number" value="1" min="1">
+        <button id="plus" aria-label="plus">+</button>
+      </div>
+    </div>
+    <div class="calc-summary">
+      <div><span>Prix unitaire</span><span id="unitPrice">2000 DT</span></div>
+      <div><span>Sous-total</span><span id="subTotal">2000 DT</span></div>
+      <div class="total"><span>Total</span><span id="total">2000 DT</span></div>
+    </div>
+    <div class="badge-remise" id="remiseBadge">✨ Remise de 50% appliquée !</div>
+  </div>
+
+  <div class="wa-box">
+    <div class="wa-icon">💬</div>
+    <h3>Prêt à commander ?</h3>
+    <p>Envoie ton idée et la quantité choisie directement sur WhatsApp, avec le total déjà calculé.</p>
+    <a class="btn btn-wa" id="waBtn" target="_blank" rel="noopener">Envoyer ma commande sur WhatsApp</a>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">🐱 Sticker Shop</div>
+  <div>Des petits stickers, pour de grandes idées.</div>
+  <div style="margin-top:8px;">Instagram / Facebook : @maisonstickertn · Radès, Tunisie</div>
+</footer>
+
+<a class="fab" id="fabWa" href="https://wa.me/21600000000" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<script>
+const UNIT = 2000;
+const qtyEl = document.getElementById('qty');
+const subTotalEl = document.getElementById('subTotal');
+const totalEl = document.getElementById('total');
+const unitPriceEl = document.getElementById('unitPrice');
+const remiseBadge = document.getElementById('remiseBadge');
+const waBtn = document.getElementById('waBtn');
+
+function fmt(n){ return n.toLocaleString('fr-FR') + ' DT'; }
+
+function update(){
+  let qty = parseInt(qtyEl.value) || 1;
+  if(qty < 1) qty = 1;
+  qtyEl.value = qty;
+  const discounted = qty > 10;
+  const unit = discounted ? UNIT/2 : UNIT;
+  const sub = UNIT * qty;
+  const total = unit * qty;
+  unitPriceEl.textContent = fmt(unit);
+  subTotalEl.textContent = fmt(sub);
+  totalEl.textContent = fmt(total);
+  remiseBadge.style.display = discounted ? 'block' : 'none';
+
+  const msg = `Bonjour Sticker Shop ! Je veux commander ${qty} sticker(s). Total estime : ${fmt(total)}${discounted ? ' (remise -50% appliquee)' : ''}. Voici mon idee : `;
+  waBtn.href = `https://wa.me/21600000000?text=${encodeURIComponent(msg)}`;
+}
+
+document.getElementById('minus').onclick = () => { qtyEl.value = Math.max(1,(parseInt(qtyEl.value)||1)-1); update(); };
+document.getElementById('plus').onclick = () => { qtyEl.value = (parseInt(qtyEl.value)||1)+1; update(); };
+qtyEl.addEventListener('input', update);
+update();
+</script>
+</body>
+</html>
