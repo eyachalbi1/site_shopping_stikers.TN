@@ -106,6 +106,13 @@ section{padding:60px 24px;position:relative;}
 .type-card h3{font-size:1.08rem;font-weight:700;margin-bottom:4px;}
 .type-card p{font-size:.92rem;color:#6b5f5b;}
 
+/* article cards */
+.art-img{width:100%;height:150px;border-radius:16px;overflow:hidden;margin-bottom:14px;background:var(--pink-soft, #FDEAF0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#b98a9a;font-size:1.8rem;}
+.art-img.ph{border:2px dashed var(--pink);}
+.art-img.ph span{font-size:.78rem;font-weight:700;color:#c98da0;}
+.art-img img{width:100%;height:100%;object-fit:cover;}
+.art-price{font-family:'Baloo 2';font-weight:800;color:var(--rose);font-size:1.15rem;margin-top:2px;}
+
 /* promo banner */
 .promo{background:linear-gradient(120deg,var(--rose),#C8447A);color:#fff;border-radius:28px;max-width:1100px;margin:0 auto;padding:38px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;}
 .promo::before{content:'';position:absolute;width:220px;height:220px;background:rgba(255,255,255,.12);border-radius:50%;top:-80px;right:-60px;}
@@ -126,6 +133,10 @@ section{padding:60px 24px;position:relative;}
 
 /* calculator */
 .calc-box{max-width:640px;margin:0 auto;background:#fff;border:2.5px dashed var(--pink);border-radius:26px;padding:32px;}
+.type-toggle{padding:12px 14px;border-radius:16px;border:2px solid var(--pink);background:#fff;font-family:'Nunito';font-weight:700;font-size:.88rem;color:var(--ink);cursor:pointer;transition:all .15s;}
+.type-toggle small{font-family:'Baloo 2';font-weight:800;font-size:.95rem;color:var(--rose);}
+.type-toggle.active{background:linear-gradient(135deg,var(--rose),#C8447A);border-color:var(--rose);color:#fff;}
+.type-toggle.active small{color:#fff;}
 .calc-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .qty{display:flex;align-items:center;gap:12px;}
 .qty button{width:42px;height:42px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--rose),#C8447A);color:#fff;font-size:1.3rem;font-weight:800;cursor:pointer;box-shadow:0 6px 14px -4px rgba(224,86,138,.55);transition:transform .15s;}
@@ -159,6 +170,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
     <div class="brand"><span class="dot">🐱</span>Sticker Shop</div>
     <nav class="links">
       <a href="#types">Personnaliser</a>
+      <a href="#articles">Articles</a>
       <a href="#steps">Envoyer sur WhatsApp</a>
       <a href="#calc">Prix</a>
     </nav>
@@ -200,11 +212,36 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   </div>
 </section>
 
+<section id="articles">
+  <div class="wrap">
+    <h2 class="section-title">Nos articles</h2>
+    <p class="section-sub">Stickers déjà prêts, à petit prix — ou ta version 100% personnalisée.</p>
+    <div class="types" id="articleGrid">
+      <div class="type-card article-card">
+        <div class="art-img ph">🖼️<span>Ton image ici</span></div>
+        <h3>Nom de l'article</h3>
+        <p class="art-price">1000 DT</p>
+      </div>
+      <div class="type-card article-card">
+        <div class="art-img ph">🖼️<span>Ton image ici</span></div>
+        <h3>Nom de l'article</h3>
+        <p class="art-price">1000 DT</p>
+      </div>
+      <div class="type-card article-card">
+        <div class="art-img ph">🖼️<span>Ton image ici</span></div>
+        <h3>Nom de l'article</h3>
+        <p class="art-price">1000 DT</p>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:22px;color:#6b5f5b;font-weight:700;font-size:.92rem;">📸 Envoie-moi tes photos de stickers dans le chat, je remplis cette galerie avec tes vrais articles.</p>
+  </div>
+</section>
+
 <section>
   <div class="promo">
     <div>
-      <h2>Command plus, paye moins</h2>
-      <p>À partir de 10 stickers dans ta commande, chaque sticker passe à moitié prix.</p>
+      <h2>Deux façons de commander</h2>
+      <p>1000 DT pour un sticker déjà prêt, 2000 DT pour une création 100% personnalisée. Dès 10 stickers, -50% sur toute la commande.</p>
     </div>
     <div class="tag">-50%</div>
   </div>
@@ -233,6 +270,12 @@ footer .brand{justify-content:center;margin-bottom:10px;}
     <p class="section-sub" style="margin-left:auto;margin-right:auto;">Plus de 10 stickers commandés = -50% sur toute la commande.</p>
   </div>
   <div class="calc-box">
+    <div class="calc-row" style="margin-bottom:18px;">
+      <div style="display:flex;gap:10px;width:100%;">
+        <button class="type-toggle active" id="typeReady" style="flex:1;">Sticker prêt<br><small>1000 DT</small></button>
+        <button class="type-toggle" id="typeCustom" style="flex:1;">Personnalisé<br><small>2000 DT</small></button>
+      </div>
+    </div>
     <div class="calc-row">
       <div><strong>Nombre de stickers</strong></div>
       <div class="qty">
@@ -242,9 +285,9 @@ footer .brand{justify-content:center;margin-bottom:10px;}
       </div>
     </div>
     <div class="calc-summary">
-      <div><span>Prix unitaire</span><span id="unitPrice">2000 DT</span></div>
-      <div><span>Sous-total</span><span id="subTotal">2000 DT</span></div>
-      <div class="total"><span>Total</span><span id="total">2000 DT</span></div>
+      <div><span>Prix unitaire</span><span id="unitPrice">1000 DT</span></div>
+      <div><span>Sous-total</span><span id="subTotal">1000 DT</span></div>
+      <div class="total"><span>Total</span><span id="total">1000 DT</span></div>
     </div>
     <div class="badge-remise" id="remiseBadge">✨ Remise de 50% appliquée !</div>
   </div>
@@ -266,7 +309,11 @@ footer .brand{justify-content:center;margin-bottom:10px;}
 <a class="fab" id="fabWa" href="https://wa.me/21694102329" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
 <script>
-const UNIT = 2000;
+let UNIT = 1000;
+const typeReady = document.getElementById('typeReady');
+const typeCustom = document.getElementById('typeCustom');
+typeReady.onclick = () => { UNIT = 1000; typeReady.classList.add('active'); typeCustom.classList.remove('active'); update(); };
+typeCustom.onclick = () => { UNIT = 2000; typeCustom.classList.add('active'); typeReady.classList.remove('active'); update(); };
 const qtyEl = document.getElementById('qty');
 const subTotalEl = document.getElementById('subTotal');
 const totalEl = document.getElementById('total');
