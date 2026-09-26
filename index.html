@@ -184,12 +184,6 @@ section{padding:60px 24px;position:relative;}
 .cart-total-row{display:flex;justify-content:space-between;font-family:'Baloo 2';font-size:1.3rem;font-weight:800;color:var(--rose);}
 .cart-remise{display:none;font-size:.8rem;font-weight:800;color:var(--gold);background:#3A2A38;padding:4px 10px;border-radius:999px;width:fit-content;margin-top:6px;}
 .cart-pay-label{font-weight:800;font-size:.85rem;margin-top:14px;margin-bottom:8px;}
-.pay-methods{display:flex;gap:10px;}
-.pay-tile{flex:1;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:.82rem;cursor:pointer;}
-.pay-tile.active{border-color:var(--rose);background:var(--pink-soft,#FDEAF0);}
-.d17-logo{width:34px;height:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.d17-logo img{width:100%;height:100%;object-fit:contain;}
-.d17-logo .fallback-txt{font-size:.7rem;font-weight:800;color:var(--rose);}
 
 footer{padding:44px 24px;text-align:center;color:#6b5f5b;font-size:.9rem;border-top:1px solid var(--line);}
 footer .brand{justify-content:center;margin-bottom:10px;}
@@ -493,14 +487,6 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   <div class="cart-foot">
     <div class="cart-total-row"><span>Total</span><span id="cartTotal">0 DT</span></div>
     <div class="cart-remise" id="cartRemise">✨ -50% appliqué (plus de 10 articles)</div>
-    <p class="cart-pay-label">Mode de paiement</p>
-    <div class="pay-methods">
-      <button class="pay-tile active" id="payWa" type="button">💬<span>WhatsApp</span></button>
-      <button class="pay-tile" id="payD17" type="button">
-        <span class="d17-logo ph"><img src="images/d17.png" alt="D17" style="display:none;" onload="this.style.display='block';this.parentElement.classList.remove('ph');this.nextElementSibling.style.display='none';" onerror="this.style.display='none';"><span class="fallback-txt">D17</span></span>
-        <span>D17</span>
-      </button>
-    </div>
     <a class="btn btn-wa" id="cartCheckout" style="width:100%;justify-content:center;margin-top:14px;" target="_blank" rel="noopener">Valider ma commande</a>
   </div>
 </aside>
@@ -602,8 +588,7 @@ function renderCart(){
   document.getElementById('cartRemise').style.display = discounted ? 'block' : 'none';
 
   const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('%0A');
-  const payLabel = payMethod === 'd17' ? 'D17' : 'WhatsApp';
-  const msg = `Bonjour Sticker Shop ! Voici ma commande :%0A${lines}%0ATotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}%0APaiement souhaite : ${payLabel}`;
+  const msg = `Bonjour Sticker Shop ! Voici ma commande :%0A${lines}%0ATotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}`;
   document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -613,8 +598,6 @@ function closeCart(){ document.getElementById('cartDrawer').classList.remove('op
 document.getElementById('fabCart').onclick = openCart;
 document.getElementById('cartClose').onclick = closeCart;
 document.getElementById('cartOverlay').onclick = closeCart;
-document.getElementById('payWa').onclick = () => { payMethod='wa'; document.getElementById('payWa').classList.add('active'); document.getElementById('payD17').classList.remove('active'); renderCart(); };
-document.getElementById('payD17').onclick = () => { payMethod='d17'; document.getElementById('payD17').classList.add('active'); document.getElementById('payWa').classList.remove('active'); renderCart(); };
 
 document.querySelectorAll('.btn-add').forEach(btn => {
   btn.addEventListener('click', () => addToCart(btn.dataset.name, parseFloat(btn.dataset.price), btn));
