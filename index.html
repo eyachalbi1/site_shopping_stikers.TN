@@ -114,6 +114,10 @@ section{padding:60px 24px;position:relative;}
 .art-img .fallback{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:1.8rem;color:#b98a9a;}
 .art-img .fallback span{font-size:.78rem;font-weight:700;color:#c98da0;}
 .art-price{font-family:'Baloo 2';font-weight:800;color:var(--rose);font-size:1.15rem;margin-top:2px;}
+.btn-add{margin-top:12px;width:100%;padding:10px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--rose),#C8447A);color:#fff;font-family:'Nunito';font-weight:800;font-size:.9rem;cursor:pointer;transition:transform .15s;}
+.btn-add:hover{transform:translateY(-2px);}
+.btn-add:active{transform:scale(.96);}
+.btn-add.added{background:var(--wa);}
 
 /* promo banner */
 .promo{background:linear-gradient(120deg,var(--rose),#C8447A);color:#fff;border-radius:28px;max-width:1100px;margin:0 auto;padding:38px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;}
@@ -158,6 +162,34 @@ section{padding:60px 24px;position:relative;}
 /* floating whatsapp button */
 .fab{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:22px;z-index:30;width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.7rem;text-decoration:none;box-shadow:0 10px 24px -6px rgba(59,193,96,.55);animation:pulse 2.4s ease-in-out infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 10px 24px -6px rgba(59,193,96,.55);}50%{box-shadow:0 10px 30px -2px rgba(59,193,96,.85);}}
+
+.fab-cart{position:fixed;bottom:calc(94px + env(safe-area-inset-bottom,0px));right:22px;z-index:30;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--rose),#C8447A);color:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;box-shadow:0 10px 24px -6px rgba(224,86,138,.55);}
+.cart-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--ink);font-family:'Baloo 2';font-size:.72rem;font-weight:800;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff;}
+
+.cart-overlay{position:fixed;inset:0;background:rgba(30,20,20,.35);z-index:39;opacity:0;pointer-events:none;transition:opacity .25s;}
+.cart-overlay.open{opacity:1;pointer-events:auto;}
+.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,92vw);background:var(--cream);z-index:40;box-shadow:-12px 0 30px -10px rgba(0,0,0,.25);transform:translateX(105%);transition:transform .3s ease;display:flex;flex-direction:column;padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));}
+.cart-drawer.open{transform:translateX(0);}
+.cart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.cart-head h3{font-size:1.3rem;}
+.cart-close{background:#fff;border:2px solid var(--line);border-radius:50%;width:34px;height:34px;font-size:1rem;cursor:pointer;}
+.cart-items{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.cart-empty{color:#8a7d78;font-size:.92rem;text-align:center;margin-top:30px;}
+.cart-item{background:#fff;border:2px dashed var(--pink);border-radius:16px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.cart-item .ci-name{font-weight:800;font-size:.92rem;}
+.cart-item .ci-price{font-size:.8rem;color:#8a7d78;}
+.cart-item .ci-qty{display:flex;align-items:center;gap:8px;}
+.cart-item .ci-qty button{width:26px;height:26px;border-radius:50%;border:none;background:var(--pink-soft,#FDEAF0);font-weight:800;cursor:pointer;}
+.cart-foot{border-top:1px dashed var(--pink);margin-top:14px;padding-top:14px;}
+.cart-total-row{display:flex;justify-content:space-between;font-family:'Baloo 2';font-size:1.3rem;font-weight:800;color:var(--rose);}
+.cart-remise{display:none;font-size:.8rem;font-weight:800;color:var(--gold);background:#3A2A38;padding:4px 10px;border-radius:999px;width:fit-content;margin-top:6px;}
+.cart-pay-label{font-weight:800;font-size:.85rem;margin-top:14px;margin-bottom:8px;}
+.pay-methods{display:flex;gap:10px;}
+.pay-tile{flex:1;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:.82rem;cursor:pointer;}
+.pay-tile.active{border-color:var(--rose);background:var(--pink-soft,#FDEAF0);}
+.d17-logo{width:34px;height:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.d17-logo img{width:100%;height:100%;object-fit:contain;}
+.d17-logo .fallback-txt{font-size:.7rem;font-weight:800;color:var(--rose);}
 
 footer{padding:44px 24px;text-align:center;color:#6b5f5b;font-size:.9rem;border-top:1px solid var(--line);}
 footer .brand{justify-content:center;margin-bottom:10px;}
@@ -225,7 +257,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 1</span></span>
         </div>
         <h3>Sticker 1</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 1" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -233,7 +266,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 2</span></span>
         </div>
         <h3>Sticker 2</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 2" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -241,7 +275,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 3</span></span>
         </div>
         <h3>Sticker 3</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 3" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -249,7 +284,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 4</span></span>
         </div>
         <h3>Sticker 4</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 4" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -257,7 +293,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 5</span></span>
         </div>
         <h3>Sticker 5</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 5" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -265,7 +302,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 6</span></span>
         </div>
         <h3>Sticker 6</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 6" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -273,7 +311,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 7</span></span>
         </div>
         <h3>Sticker 7</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 7" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -281,7 +320,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 8</span></span>
         </div>
         <h3>Sticker 8</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 8" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -289,7 +329,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 9</span></span>
         </div>
         <h3>Sticker 9</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 9" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -297,7 +338,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 10</span></span>
         </div>
         <h3>Sticker 10</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 10" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -305,7 +347,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 11</span></span>
         </div>
         <h3>Sticker 11</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 11" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -313,7 +356,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 12</span></span>
         </div>
         <h3>Sticker 12</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 12" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -321,7 +365,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 13</span></span>
         </div>
         <h3>Sticker 13</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 13" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -329,7 +374,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 14</span></span>
         </div>
         <h3>Sticker 14</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 14" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -337,7 +383,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 15</span></span>
         </div>
         <h3>Sticker 15</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 15" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -345,7 +392,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 16</span></span>
         </div>
         <h3>Sticker 16</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 16" data-price="1">Ajouter 🛒</button>
       </div>
       <div class="type-card article-card">
         <div class="art-img ph">
@@ -353,7 +401,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
           <span class="fallback">🖼️<span>Image 17</span></span>
         </div>
         <h3>Sticker 17</h3>
-        <p class="art-price">1000 DT</p>
+        <p class="art-price">1 DT</p>
+        <button class="btn-add" data-name="Sticker 17" data-price="1">Ajouter 🛒</button>
       </div>
     </div>
     <p style="text-align:center;margin-top:22px;color:#6b5f5b;font-weight:700;font-size:.92rem;">📁 Dossier <code>images/</code> sur GitHub → ajoute tes photos nommées sticker1.jpg à sticker17.jpg, elles apparaîtront automatiquement ici.</p>
@@ -364,7 +413,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   <div class="promo">
     <div>
       <h2>Deux façons de commander</h2>
-      <p>1000 DT pour un sticker déjà prêt, 2000 DT pour une création 100% personnalisée. Dès 10 stickers, -50% sur toute la commande.</p>
+      <p>1 DT pour un sticker déjà prêt, 2 DT pour une création 100% personnalisée. Dès 10 stickers, -50% sur toute la commande.</p>
     </div>
     <div class="tag">-50%</div>
   </div>
@@ -395,8 +444,8 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   <div class="calc-box">
     <div class="calc-row" style="margin-bottom:18px;">
       <div style="display:flex;gap:10px;width:100%;">
-        <button class="type-toggle active" id="typeReady" style="flex:1;">Sticker prêt<br><small>1000 DT</small></button>
-        <button class="type-toggle" id="typeCustom" style="flex:1;">Personnalisé<br><small>2000 DT</small></button>
+        <button class="type-toggle active" id="typeReady" style="flex:1;">Sticker prêt<br><small>1 DT</small></button>
+        <button class="type-toggle" id="typeCustom" style="flex:1;">Personnalisé<br><small>2 DT</small></button>
       </div>
     </div>
     <div class="calc-row">
@@ -408,9 +457,9 @@ footer .brand{justify-content:center;margin-bottom:10px;}
       </div>
     </div>
     <div class="calc-summary">
-      <div><span>Prix unitaire</span><span id="unitPrice">1000 DT</span></div>
-      <div><span>Sous-total</span><span id="subTotal">1000 DT</span></div>
-      <div class="total"><span>Total</span><span id="total">1000 DT</span></div>
+      <div><span>Prix unitaire</span><span id="unitPrice">1 DT</span></div>
+      <div><span>Sous-total</span><span id="subTotal">1 DT</span></div>
+      <div class="total"><span>Total</span><span id="total">1 DT</span></div>
     </div>
     <div class="badge-remise" id="remiseBadge">✨ Remise de 50% appliquée !</div>
   </div>
@@ -429,14 +478,39 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   <div style="margin-top:8px;">Instagram / Facebook : @maisonstickertn · Radès, Tunisie</div>
 </footer>
 
+<button class="fab fab-cart" id="fabCart" aria-label="Panier">🛒<span class="cart-count" id="cartCount">0</span></button>
 <a class="fab" id="fabWa" href="https://wa.me/21694102329" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Ton panier 🛍️</h3>
+    <button class="cart-close" id="cartClose" aria-label="Fermer">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Ton panier est vide. Clique sur « Ajouter » sous un sticker !</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total-row"><span>Total</span><span id="cartTotal">0 DT</span></div>
+    <div class="cart-remise" id="cartRemise">✨ -50% appliqué (plus de 10 articles)</div>
+    <p class="cart-pay-label">Mode de paiement</p>
+    <div class="pay-methods">
+      <button class="pay-tile active" id="payWa" type="button">💬<span>WhatsApp</span></button>
+      <button class="pay-tile" id="payD17" type="button">
+        <span class="d17-logo ph"><img src="images/d17.png" alt="D17" style="display:none;" onload="this.style.display='block';this.parentElement.classList.remove('ph');this.nextElementSibling.style.display='none';" onerror="this.style.display='none';"><span class="fallback-txt">D17</span></span>
+        <span>D17</span>
+      </button>
+    </div>
+    <a class="btn btn-wa" id="cartCheckout" style="width:100%;justify-content:center;margin-top:14px;" target="_blank" rel="noopener">Valider ma commande</a>
+  </div>
+</aside>
+
 <script>
-let UNIT = 1000;
+let UNIT = 1;
 const typeReady = document.getElementById('typeReady');
 const typeCustom = document.getElementById('typeCustom');
-typeReady.onclick = () => { UNIT = 1000; typeReady.classList.add('active'); typeCustom.classList.remove('active'); update(); };
-typeCustom.onclick = () => { UNIT = 2000; typeCustom.classList.add('active'); typeReady.classList.remove('active'); update(); };
+typeReady.onclick = () => { UNIT = 1; typeReady.classList.add('active'); typeCustom.classList.remove('active'); update(); };
+typeCustom.onclick = () => { UNIT = 2; typeCustom.classList.add('active'); typeReady.classList.remove('active'); update(); };
 const qtyEl = document.getElementById('qty');
 const subTotalEl = document.getElementById('subTotal');
 const totalEl = document.getElementById('total');
@@ -444,7 +518,7 @@ const unitPriceEl = document.getElementById('unitPrice');
 const remiseBadge = document.getElementById('remiseBadge');
 const waBtn = document.getElementById('waBtn');
 
-function fmt(n){ return n.toLocaleString('fr-FR') + ' DT'; }
+function fmt(n){ return n.toLocaleString('fr-FR',{maximumFractionDigits:3}) + ' DT'; }
 
 function update(){
   let qty = parseInt(qtyEl.value) || 1;
@@ -467,6 +541,86 @@ document.getElementById('minus').onclick = () => { qtyEl.value = Math.max(1,(par
 document.getElementById('plus').onclick = () => { qtyEl.value = (parseInt(qtyEl.value)||1)+1; update(); };
 qtyEl.addEventListener('input', update);
 update();
+
+/* ---- Panier ---- */
+let cart = [];
+try{ cart = JSON.parse(localStorage.getItem('stickerCart') || '[]'); }catch(e){ cart = []; }
+let payMethod = 'wa';
+const WA_NUMBER = '21694102329';
+
+function saveCart(){ try{ localStorage.setItem('stickerCart', JSON.stringify(cart)); }catch(e){} }
+
+function addToCart(name, price, btn){
+  const existing = cart.find(i => i.name === name);
+  if(existing){ existing.qty++; } else { cart.push({name, price, qty:1}); }
+  saveCart();
+  renderCart();
+  openCart();
+  if(btn){
+    const original = btn.textContent;
+    btn.textContent = 'Ajouté ✓';
+    btn.classList.add('added');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('added'); }, 1200);
+  }
+}
+
+function changeQty(name, delta){
+  const item = cart.find(i => i.name === name);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(i => i.name !== name);
+  saveCart();
+  renderCart();
+}
+
+function cartTotalCount(){ return cart.reduce((s,i)=>s+i.qty,0); }
+
+function renderCart(){
+  const itemsEl = document.getElementById('cartItems');
+  const count = cartTotalCount();
+  document.getElementById('cartCount').textContent = count;
+  if(cart.length === 0){
+    itemsEl.innerHTML = '<p class="cart-empty">Ton panier est vide. Clique sur « Ajouter » sous un sticker !</p>';
+  } else {
+    itemsEl.innerHTML = cart.map(i => `
+      <div class="cart-item">
+        <div>
+          <div class="ci-name">${i.name}</div>
+          <div class="ci-price">${i.price} DT / unité</div>
+        </div>
+        <div class="ci-qty">
+          <button onclick="changeQty('${i.name.replace(/'/g,"\\'")}',-1)">−</button>
+          <span>${i.qty}</span>
+          <button onclick="changeQty('${i.name.replace(/'/g,"\\'")}',1)">+</button>
+        </div>
+      </div>`).join('');
+  }
+  const rawTotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const discounted = count > 10;
+  const finalTotal = discounted ? rawTotal/2 : rawTotal;
+  document.getElementById('cartTotal').textContent = fmt(finalTotal);
+  document.getElementById('cartRemise').style.display = discounted ? 'block' : 'none';
+
+  const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('%0A');
+  const payLabel = payMethod === 'd17' ? 'D17' : 'WhatsApp';
+  const msg = `Bonjour Sticker Shop ! Voici ma commande :%0A${lines}%0ATotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}%0APaiement souhaite : ${payLabel}`;
+  document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+function openCart(){ document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); }
+function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
+
+document.getElementById('fabCart').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+document.getElementById('cartOverlay').onclick = closeCart;
+document.getElementById('payWa').onclick = () => { payMethod='wa'; document.getElementById('payWa').classList.add('active'); document.getElementById('payD17').classList.remove('active'); renderCart(); };
+document.getElementById('payD17').onclick = () => { payMethod='d17'; document.getElementById('payD17').classList.add('active'); document.getElementById('payWa').classList.remove('active'); renderCart(); };
+
+document.querySelectorAll('.btn-add').forEach(btn => {
+  btn.addEventListener('click', () => addToCart(btn.dataset.name, parseFloat(btn.dataset.price), btn));
+});
+
+renderCart();
 </script>
 </body>
 </html>
