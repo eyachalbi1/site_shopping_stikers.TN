@@ -186,6 +186,7 @@ section{padding:60px 24px;position:relative;}
 .cart-items{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
 .cart-empty{color:#8a7d78;font-size:.92rem;text-align:center;margin-top:30px;}
 .cart-item{background:#fff;border:2px dashed var(--pink);border-radius:16px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.ci-thumb{width:22%;max-width:64px;min-width:44px;aspect-ratio:1/1;border-radius:12px;object-fit:cover;flex-shrink:0;}
 .cart-item .ci-name{font-weight:800;font-size:.92rem;}
 .cart-item .ci-price{font-size:.8rem;color:#8a7d78;}
 .cart-item .ci-qty{display:flex;align-items:center;gap:8px;}
@@ -407,7 +408,6 @@ function addToCart(name, price, btn, img){
   if(existing){ existing.qty++; if(img) existing.img = img; } else { cart.push({name, price, qty:1, img: img || ''}); }
   saveCart();
   renderCart();
-  openCart();
   if(btn){
     const original = btn.textContent;
     btn.textContent = 'Ajouté ✓';
@@ -436,9 +436,9 @@ function renderCart(){
   } else {
     itemsEl.innerHTML = cart.map(i => `
       <div class="cart-item">
-        ${i.img ? `<img src="${i.img}" alt="${i.name}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;">` : ''}
+        ${i.img ? `<img src="${i.img}" alt="Article" class="ci-thumb">` : ''}
         <div style="flex:1;">
-          <div class="ci-name">${i.name}</div>
+          <div class="ci-name">Article</div>
           <div class="ci-price">${i.price} DT / unité</div>
         </div>
         <div class="ci-qty">
@@ -527,7 +527,10 @@ async function loadArticles(){
       grid.innerHTML = '<p class="cart-empty">Aucun article pour l\'instant, reviens bientôt !</p>';
       return;
     }
-    images.forEach(f => grid.appendChild(buildArticleCard(prettyName(f.name), f.download_url)));
+    images.forEach(f => {
+      const rawUrl = `https://raw.githubusercontent.com/eyachalbi1/site_shopping_stikers.TN/main/${f.path}`;
+      grid.appendChild(buildArticleCard(prettyName(f.name), encodeURI(rawUrl)));
+    });
   }catch(e){
     grid.innerHTML = '<p class="cart-empty">Impossible de charger les articles pour le moment. Réessaie de rafraîchir la page.</p>';
   }
