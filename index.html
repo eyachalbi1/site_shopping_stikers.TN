@@ -473,9 +473,8 @@ document.querySelectorAll('.btn-add').forEach(btn => {
 renderCart();
 
 /* ---- Chargement automatique des articles depuis GitHub ---- */
-const REPO_API = 'https://api.github.com/repos/eyachalbi1/site_shopping_stikers.TN/contents/images';
-const EXCLUDE_NAMES = ['d17', 'readme'];
-const IMG_EXT = /\.(jpe?g|png|webp|gif)$/i;
+const MANIFEST_URL = 'https://raw.githubusercontent.com/eyachalbi1/site_shopping_stikers.TN/main/images/manifest.json';
+const IMG_BASE = 'https://raw.githubusercontent.com/eyachalbi1/site_shopping_stikers.TN/main/images/';
 
 function prettyName(filename){
   const base = filename.replace(/\.[^.]+$/, '');
@@ -513,23 +512,18 @@ document.getElementById('lightbox').addEventListener('click', (e) => { if(e.targ
 async function loadArticles(){
   const grid = document.getElementById('articleGrid');
   try{
-    const res = await fetch(REPO_API);
+    const res = await fetch(MANIFEST_URL, {cache:'no-store'});
     if(!res.ok) throw new Error('fetch failed');
-    const files = await res.json();
-    const images = files.filter(f => {
-      if(f.type !== 'file' || !IMG_EXT.test(f.name)) return false;
-      const base = f.name.replace(/\.[^.]+$/, '').toLowerCase();
-      return !EXCLUDE_NAMES.includes(base);
-    }).sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric:true}));
+    const filenames = await res.json();
 
     grid.innerHTML = '';
-    if(images.length === 0){
+    if(!filenames || filenames.length === 0){
       grid.innerHTML = '<p class="cart-empty">Aucun article pour l\'instant, reviens bientôt !</p>';
       return;
     }
-    images.forEach(f => {
-      const rawUrl = `https://raw.githubusercontent.com/eyachalbi1/site_shopping_stikers.TN/main/${f.path}`;
-      grid.appendChild(buildArticleCard(prettyName(f.name), encodeURI(rawUrl)));
+    filenames.forEach(name => {
+      const rawUrl = IMG_BASE + name;
+      grid.appendChild(buildArticleCard(prettyName(name), encodeURI(rawUrl)));
     });
   }catch(e){
     grid.innerHTML = '<p class="cart-empty">Impossible de charger les articles pour le moment. Réessaie de rafraîchir la page.</p>';
