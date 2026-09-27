@@ -403,9 +403,9 @@ const WA_NUMBER = '21694102329';
 
 function saveCart(){ try{ localStorage.setItem('stickerCart_v2', JSON.stringify(cart)); }catch(e){} }
 
-function addToCart(name, price, btn, img){
+function addToCart(name, price, btn, img, file){
   const existing = cart.find(i => i.name === name);
-  if(existing){ existing.qty++; if(img) existing.img = img; } else { cart.push({name, price, qty:1, img: img || ''}); }
+  if(existing){ existing.qty++; if(img) existing.img = img; if(file) existing.file = file; } else { cart.push({name, price, qty:1, img: img || '', file: file || ''}); }
   saveCart();
   renderCart();
   if(btn){
@@ -455,8 +455,8 @@ function renderCart(){
   document.getElementById('cartRemise').style.display = discounted ? 'block' : 'none';
 
   const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('\n');
-  const recapData = { items: cart.map(i => ({qty:i.qty, price:i.price, img:i.img})), total: finalTotal };
-  const recapUrl = location.origin + location.pathname.replace(/index\.html$/,'').replace(/\/$/,'') + '/commande.html#' + encodeURIComponent(JSON.stringify(recapData));
+  const recapCode = cart.filter(i=>i.file).map(i => `${encodeURIComponent(i.file)}:${i.qty}:${i.price}`).join(',');
+  const recapUrl = location.origin + location.pathname.replace(/index\.html$/,'').replace(/\/$/,'') + '/commande.html?c=' + recapCode;
   const msg = `Bonjour Sticker Shop ! Voici ma commande :\n${lines}\nTotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}\n\nVoir les photos choisies :\n${recapUrl}`;
   document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
@@ -485,7 +485,7 @@ function prettyName(filename){
   return base.replace(/[_-]+/g,' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
-function buildArticleCard(name, imgUrl){
+function buildArticleCard(name, imgUrl, fileName){
   const card = document.createElement('div');
   card.className = 'type-card article-card';
   card.innerHTML = `
@@ -495,16 +495,16 @@ function buildArticleCard(name, imgUrl){
     <p class="art-price">1 DT</p>
     <button class="btn-add" data-name="${name.replace(/"/g,'&quot;')}" data-price="1">Ajouter 🛒</button>
   `;
-  card.querySelector('.btn-add').addEventListener('click', function(){ addToCart(name, 1, this, imgUrl); });
-  card.querySelector('.art-img').addEventListener('click', () => openLightbox(name, imgUrl));
+  card.querySelector('.btn-add').addEventListener('click', function(){ addToCart(name, 1, this, imgUrl, fileName); });
+  card.querySelector('.art-img').addEventListener('click', () => openLightbox(name, imgUrl, fileName));
   return card;
 }
 
-function openLightbox(name, imgUrl){
+function openLightbox(name, imgUrl, fileName){
   document.getElementById('lightboxImg').src = imgUrl;
   document.getElementById('lightboxImg').alt = name;
   const addBtn = document.getElementById('lightboxAdd');
-  addBtn.onclick = () => addToCart(name, 1, addBtn, imgUrl);
+  addBtn.onclick = () => addToCart(name, 1, addBtn, imgUrl, fileName);
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
@@ -525,7 +525,7 @@ async function loadArticles(){
     }
     filenames.forEach(name => {
       const rawUrl = IMG_BASE + name;
-      grid.appendChild(buildArticleCard(prettyName(name), encodeURI(rawUrl)));
+      grid.appendChild(buildArticleCard(prettyName(name), encodeURI(rawUrl), name));
     });
   }catch(e){
     grid.innerHTML = '<p class="cart-empty">Impossible de charger les articles pour le moment. Réessaie de rafraîchir la page.</p>';

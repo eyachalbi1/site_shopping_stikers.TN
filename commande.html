@@ -36,22 +36,32 @@ h1{font-family:'Baloo 2';font-size:1.6rem;text-align:center;margin-bottom:6px;}
 </div>
 <script>
 function fmt(n){ return n.toLocaleString('fr-FR',{maximumFractionDigits:3}) + ' DT'; }
+const IMG_BASE = 'https://raw.githubusercontent.com/eyachalbi1/site_shopping_stikers.TN/main/images/';
 try{
-  const raw = decodeURIComponent(location.hash.slice(1));
-  const data = JSON.parse(raw);
+  const params = new URLSearchParams(location.search);
+  const code = params.get('c') || '';
+  const items = code.split(',').filter(Boolean).map(part => {
+    const [file, qty, price] = part.split(':');
+    return { file: decodeURIComponent(file), qty: parseInt(qty)||1, price: parseFloat(price)||0 };
+  });
   const itemsEl = document.getElementById('items');
-  if(!data.items || data.items.length === 0){
+  if(items.length === 0){
     itemsEl.innerHTML = '<p class="empty">Aucun article dans cette commande.</p>';
   } else {
-    itemsEl.innerHTML = data.items.map(i => `
+    let total = 0;
+    itemsEl.innerHTML = items.map(i => {
+      total += i.qty * i.price;
+      const imgUrl = encodeURI(IMG_BASE + i.file);
+      return `
       <div class="item">
-        ${i.img ? `<img src="${i.img}" alt="Article">` : ''}
+        <img src="${imgUrl}" alt="Article">
         <div style="flex:1;">
           <div class="qty">x${i.qty}</div>
           <div class="price">${i.price} DT / unité — sous-total ${fmt(i.price*i.qty)}</div>
         </div>
-      </div>`).join('');
-    document.getElementById('totalAmount').textContent = fmt(data.total || 0);
+      </div>`;
+    }).join('');
+    document.getElementById('totalAmount').textContent = fmt(total);
     document.getElementById('totalBox').style.display = 'block';
   }
 }catch(e){
