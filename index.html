@@ -397,11 +397,11 @@ update();
 
 /* ---- Panier ---- */
 let cart = [];
-try{ cart = JSON.parse(localStorage.getItem('stickerCart') || '[]'); }catch(e){ cart = []; }
+try{ cart = JSON.parse(localStorage.getItem('stickerCart_v2') || '[]'); }catch(e){ cart = []; }
 let payMethod = 'wa';
 const WA_NUMBER = '21694102329';
 
-function saveCart(){ try{ localStorage.setItem('stickerCart', JSON.stringify(cart)); }catch(e){} }
+function saveCart(){ try{ localStorage.setItem('stickerCart_v2', JSON.stringify(cart)); }catch(e){} }
 
 function addToCart(name, price, btn, img){
   const existing = cart.find(i => i.name === name);
