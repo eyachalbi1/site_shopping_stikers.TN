@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Récapitulatif de commande — Sticker Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFF6EC;--pink:#FFC7DC;--rose:#E0568A;--ink:#2B2321;--line:#F0DCE2;--gold:#FFCE54;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--ink);background:linear-gradient(180deg,#FFF6EC,#FFE9DA);min-height:100%;padding:28px 18px;}
+h1{font-family:'Baloo 2';font-size:1.6rem;text-align:center;margin-bottom:6px;}
+.sub{text-align:center;color:#6b5f5b;font-weight:700;margin-bottom:24px;font-size:.92rem;}
+.wrap{max-width:520px;margin:0 auto;}
+.item{background:#fff;border:2.5px dashed var(--pink);border-radius:20px;padding:14px;display:flex;gap:14px;align-items:center;margin-bottom:14px;}
+.item img{width:84px;height:84px;border-radius:14px;object-fit:cover;flex-shrink:0;}
+.item .qty{font-family:'Baloo 2';font-weight:800;color:var(--rose);font-size:1.1rem;}
+.item .price{color:#6b5f5b;font-weight:700;font-size:.88rem;}
+.total-box{background:var(--ink);color:#fff;border-radius:20px;padding:20px;text-align:center;margin-top:18px;}
+.total-box .amount{font-family:'Baloo 2';font-size:2rem;font-weight:800;color:var(--gold);}
+.empty{text-align:center;color:#8a7d78;font-weight:700;margin-top:60px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🛍️ Récapitulatif de commande</h1>
+  <p class="sub">Voici les articles choisis par le client</p>
+  <div id="items"></div>
+  <div class="total-box" id="totalBox" style="display:none;">
+    <div>Total</div>
+    <div class="amount" id="totalAmount">0 DT</div>
+  </div>
+</div>
+<script>
+function fmt(n){ return n.toLocaleString('fr-FR',{maximumFractionDigits:3}) + ' DT'; }
+try{
+  const raw = decodeURIComponent(location.hash.slice(1));
+  const data = JSON.parse(raw);
+  const itemsEl = document.getElementById('items');
+  if(!data.items || data.items.length === 0){
+    itemsEl.innerHTML = '<p class="empty">Aucun article dans cette commande.</p>';
+  } else {
+    itemsEl.innerHTML = data.items.map(i => `
+      <div class="item">
+        ${i.img ? `<img src="${i.img}" alt="Article">` : ''}
+        <div style="flex:1;">
+          <div class="qty">x${i.qty}</div>
+          <div class="price">${i.price} DT / unité — sous-total ${fmt(i.price*i.qty)}</div>
+        </div>
+      </div>`).join('');
+    document.getElementById('totalAmount').textContent = fmt(data.total || 0);
+    document.getElementById('totalBox').style.display = 'block';
+  }
+}catch(e){
+  document.getElementById('items').innerHTML = '<p class="empty">Impossible de lire cette commande.</p>';
+}
+</script>
+</body>
+</html>
