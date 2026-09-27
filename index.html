@@ -402,9 +402,9 @@ const WA_NUMBER = '21694102329';
 
 function saveCart(){ try{ localStorage.setItem('stickerCart', JSON.stringify(cart)); }catch(e){} }
 
-function addToCart(name, price, btn){
+function addToCart(name, price, btn, img){
   const existing = cart.find(i => i.name === name);
-  if(existing){ existing.qty++; } else { cart.push({name, price, qty:1}); }
+  if(existing){ existing.qty++; if(img) existing.img = img; } else { cart.push({name, price, qty:1, img: img || ''}); }
   saveCart();
   renderCart();
   openCart();
@@ -436,7 +436,8 @@ function renderCart(){
   } else {
     itemsEl.innerHTML = cart.map(i => `
       <div class="cart-item">
-        <div>
+        ${i.img ? `<img src="${i.img}" alt="${i.name}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;">` : ''}
+        <div style="flex:1;">
           <div class="ci-name">${i.name}</div>
           <div class="ci-price">${i.price} DT / unité</div>
         </div>
@@ -453,7 +454,7 @@ function renderCart(){
   document.getElementById('cartTotal').textContent = fmt(finalTotal);
   document.getElementById('cartRemise').style.display = discounted ? 'block' : 'none';
 
-  const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('%0A');
+  const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})${i.img ? ' - Photo: ' + i.img : ''}`).join('%0A');
   const msg = `Bonjour Sticker Shop ! Voici ma commande :%0A${lines}%0ATotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}`;
   document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
@@ -493,7 +494,7 @@ function buildArticleCard(name, imgUrl){
     <p class="art-price">1 DT</p>
     <button class="btn-add" data-name="${name.replace(/"/g,'&quot;')}" data-price="1">Ajouter 🛒</button>
   `;
-  card.querySelector('.btn-add').addEventListener('click', function(){ addToCart(name, 1, this); });
+  card.querySelector('.btn-add').addEventListener('click', function(){ addToCart(name, 1, this, imgUrl); });
   card.querySelector('.art-img').addEventListener('click', () => openLightbox(name, imgUrl));
   return card;
 }
@@ -502,7 +503,7 @@ function openLightbox(name, imgUrl){
   document.getElementById('lightboxImg').src = imgUrl;
   document.getElementById('lightboxImg').alt = name;
   const addBtn = document.getElementById('lightboxAdd');
-  addBtn.onclick = () => addToCart(name, 1, addBtn);
+  addBtn.onclick = () => addToCart(name, 1, addBtn, imgUrl);
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
