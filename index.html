@@ -454,10 +454,10 @@ function renderCart(){
   document.getElementById('cartTotal').textContent = fmt(finalTotal);
   document.getElementById('cartRemise').style.display = discounted ? 'block' : 'none';
 
-  const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('%0A');
+  const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('\n');
   const recapData = { items: cart.map(i => ({qty:i.qty, price:i.price, img:i.img})), total: finalTotal };
   const recapUrl = location.origin + location.pathname.replace(/index\.html$/,'').replace(/\/$/,'') + '/commande.html#' + encodeURIComponent(JSON.stringify(recapData));
-  const msg = `Bonjour Sticker Shop ! Voici ma commande :%0A${lines}%0ATotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}%0A%0AVoir les photos choisies :%0A${recapUrl}`;
+  const msg = `Bonjour Sticker Shop ! Voici ma commande :\n${lines}\nTotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}\n\nVoir les photos choisies :\n${recapUrl}`;
   document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
