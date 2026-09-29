@@ -228,7 +228,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
       </div>
     </div>
     <div class="sticker-stack">
-      <div class="ribbon">-50% dès 10</div>
+      <div class="ribbon">-20% dès 10</div>
       <div class="sticker s1"><span class="emoji">📸</span><span class="lbl">Ta photo</span></div>
       <div class="sticker s2"><span class="emoji">💬</span><span class="lbl">Ton prénom</span></div>
       <div class="sticker s3"><span class="emoji">🎨</span><span class="lbl">Ton dessin</span></div>
@@ -267,9 +267,9 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   <div class="promo">
     <div>
       <h2>Deux façons de commander</h2>
-      <p>1 DT pour un sticker déjà prêt, 2 DT pour une création 100% personnalisée. Dès 10 stickers, -50% sur toute la commande.</p>
+      <p>1 DT pour un sticker déjà prêt, 2 DT pour une création 100% personnalisée. Dès 10 stickers, -20% sur toute la commande.</p>
     </div>
-    <div class="tag">-50%</div>
+    <div class="tag">-20%</div>
   </div>
 </section>
 
@@ -293,7 +293,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
 <section id="calc">
   <div class="wrap" style="text-align:center;">
     <h2 class="section-title">Calcule ton prix</h2>
-    <p class="section-sub" style="margin-left:auto;margin-right:auto;">Plus de 10 stickers commandés = -50% sur toute la commande.</p>
+    <p class="section-sub" style="margin-left:auto;margin-right:auto;">Plus de 10 stickers commandés = -20% sur toute la commande.</p>
   </div>
   <div class="calc-box">
     <div class="calc-row" style="margin-bottom:18px;">
@@ -315,7 +315,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
       <div><span>Sous-total</span><span id="subTotal">1 DT</span></div>
       <div class="total"><span>Total</span><span id="total">1 DT</span></div>
     </div>
-    <div class="badge-remise" id="remiseBadge">✨ Remise de 50% appliquée !</div>
+    <div class="badge-remise" id="remiseBadge">✨ Remise de 20% appliquée !</div>
   </div>
 
   <div class="wa-box">
@@ -353,7 +353,7 @@ footer .brand{justify-content:center;margin-bottom:10px;}
   </div>
   <div class="cart-foot">
     <div class="cart-total-row"><span>Total</span><span id="cartTotal">0 DT</span></div>
-    <div class="cart-remise" id="cartRemise">✨ -50% appliqué (plus de 10 articles)</div>
+    <div class="cart-remise" id="cartRemise">✨ -20% appliqué (plus de 10 articles)</div>
     <a class="btn btn-wa" id="cartCheckout" style="width:100%;justify-content:center;margin-top:14px;" target="_blank" rel="noopener">Valider ma commande</a>
   </div>
 </aside>
@@ -379,7 +379,7 @@ function update(){
   if(qty < 1) qty = 1;
   qtyEl.value = qty;
   const discounted = qty > 10;
-  const unit = discounted ? UNIT/2 : UNIT;
+  const unit = discounted ? UNIT*0.8 : UNIT;
   const sub = UNIT * qty;
   const total = unit * qty;
   unitPriceEl.textContent = fmt(unit);
@@ -387,7 +387,7 @@ function update(){
   totalEl.textContent = fmt(total);
   remiseBadge.style.display = discounted ? 'block' : 'none';
 
-  const msg = `${greeting()}, je veux commander ${qty} sticker(s). Total estime : ${fmt(total)}${discounted ? ' (remise -50% appliquee)' : ''}. Voici mon idee : `;
+  const msg = `${greeting()}, je veux commander ${qty} sticker(s). Total estime : ${fmt(total)}${discounted ? ' (remise -20% appliquee)' : ''}. Voici mon idee : `;
   waBtn.href = `https://wa.me/21694102329?text=${encodeURIComponent(msg)}`;
 }
 
@@ -451,14 +451,14 @@ function renderCart(){
   }
   const rawTotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
   const discounted = count > 10;
-  const finalTotal = discounted ? rawTotal/2 : rawTotal;
+  const finalTotal = discounted ? rawTotal*0.8 : rawTotal;
   document.getElementById('cartTotal').textContent = fmt(finalTotal);
   document.getElementById('cartRemise').style.display = discounted ? 'block' : 'none';
 
   const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('\n');
   const recapCode = cart.filter(i=>i.file).map(i => `${encodeURIComponent(i.file)}:${i.qty}:${i.price}`).join(',');
   const recapUrl = location.origin + location.pathname.replace(/index\.html$/,'').replace(/\/$/,'') + '/commande.html?c=' + recapCode;
-  const msg = `${greeting()}, voici mon récapitulatif de commande :\n${lines}\nTotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}\n\nVoir les photos choisies :\n${recapUrl}`;
+  const msg = `${greeting()}, voici mon récapitulatif de commande :\n${lines}\nTotal : ${fmt(finalTotal)}${discounted ? ' (remise -20% appliquee)' : ''}\n\nVoir les photos choisies :\n${recapUrl}`;
   document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
