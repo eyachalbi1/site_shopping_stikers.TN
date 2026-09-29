@@ -372,6 +372,7 @@ const remiseBadge = document.getElementById('remiseBadge');
 const waBtn = document.getElementById('waBtn');
 
 function fmt(n){ return n.toLocaleString('fr-FR',{maximumFractionDigits:3}) + ' DT'; }
+function greeting(){ return new Date().getHours() < 18 ? 'Bonjour' : 'Bonsoir'; }
 
 function update(){
   let qty = parseInt(qtyEl.value) || 1;
@@ -386,7 +387,7 @@ function update(){
   totalEl.textContent = fmt(total);
   remiseBadge.style.display = discounted ? 'block' : 'none';
 
-  const msg = `Bonjour Sticker Shop ! Je veux commander ${qty} sticker(s). Total estime : ${fmt(total)}${discounted ? ' (remise -50% appliquee)' : ''}. Voici mon idee : `;
+  const msg = `${greeting()}, je veux commander ${qty} sticker(s). Total estime : ${fmt(total)}${discounted ? ' (remise -50% appliquee)' : ''}. Voici mon idee : `;
   waBtn.href = `https://wa.me/21694102329?text=${encodeURIComponent(msg)}`;
 }
 
@@ -457,7 +458,7 @@ function renderCart(){
   const lines = cart.map(i => `- ${i.name} x${i.qty} (${fmt(i.price*i.qty)})`).join('\n');
   const recapCode = cart.filter(i=>i.file).map(i => `${encodeURIComponent(i.file)}:${i.qty}:${i.price}`).join(',');
   const recapUrl = location.origin + location.pathname.replace(/index\.html$/,'').replace(/\/$/,'') + '/commande.html?c=' + recapCode;
-  const msg = `Bonjour Sticker Shop ! Voici ma commande :\n${lines}\nTotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}\n\nVoir les photos choisies :\n${recapUrl}`;
+  const msg = `${greeting()}, voici mon récapitulatif de commande :\n${lines}\nTotal : ${fmt(finalTotal)}${discounted ? ' (remise -50% appliquee)' : ''}\n\nVoir les photos choisies :\n${recapUrl}`;
   document.getElementById('cartCheckout').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
